@@ -1,0 +1,129 @@
+
+df <- read.table("day1/data/life-exp.csv", header = F, sep = ",")
+
+head(df)
+
+df <- read.table("day1/data/life-exp.csv", header = T, sep = ",")
+
+head(df)
+
+#Read binary file
+
+library(readxl)
+library(haven)
+
+df <- read_excel("day1/data/vaccine_data.xlsx", sheet = 1)
+head(df_1)
+
+df_2 <- read_dta("day1/data/linelist-raw.dta")
+head(df_2)
+
+a <- 3
+b <- 2
+c <- a*b
+print(c)
+
+a <- 2 # Giá trị
+a <- c(1:4) #vector
+df <- data.frame(a = c(1:4),
+                 b = c(2:5)) # Matrix
+
+
+max(x = df$id, na.rm = TRUE)
+max(x = df$ngaysinh, na.rm = TRUE)
+
+
+# Lam sach du lieu
+
+library(janitor)
+df <- clean_names(df)
+head(df)
+
+
+class(df$gioitinh)
+df$gioitinh <- as.factor(df$gioitinh)
+class(df$gioitinh)
+
+
+df$ngaysinh <- as.Date(df$ngaysinh)
+class(df$ngaysinh)
+
+
+df %>% colnames()
+df %>% clean_names() %>% colnames()
+
+
+library(dplyr)
+df <- df %>% clean_names() %>% rename(vgb_truoc_24 = vgb_24, # Tên mới = Tên cũ
+                                      vgb_sau_24 = vgb_24_2)
+str(df)
+
+date_cols <- c("ngaysinh", "vgb_truoc_24","vgb_sau_24","vgb_1","vgb_2","vgb_3","vgb_4","hg_1","hg_2","hg_3","hg_4","uv_1","uv_2","uv_3","uv_4")
+
+df <- df %>% 
+  mutate( # Each column
+    gioitinh = as.factor(gioitinh),
+    tinhtrang = ifelse(tinhtrang == "theo dõi", TRUE, FALSE)
+  ) %>% 
+  mutate_at( # Multiple column
+    date_cols, 
+    dmy
+  ) %>% 
+  rename(
+    theodoi = tinhtrang
+  )
+
+library(lubridate)
+library(skimr)
+library(tidyr)
+#recode
+df <- read_excel("day1/data/vaccine_data.xlsx", sheet = 1)
+
+sum(is.na(df))
+
+df <- df %>% clean_names() %>% rename(vgb_truoc_24 = vgb_24,
+                                      vgb_sau_24 = vgb_24_2)
+str(df)
+
+df <- df %>% mutate(gioitinh = as.factor(gioitinh),
+                    tinhtrang = ifelse(tinhtrang=="theo dõi", TRUE, FALSE)) %>% rename(theodoi = tinhtrang)
+str(df)
+
+datecols <- c("ngaysinh","vgb_truoc_24","vgb_sau_24","vgb_1","vgb_2","vgb_3","vgb_4","hg_1","hg_2", "hg_3", "hg_4", "uv_1", "uv_2", "uv_3", "uv_4")
+
+df <- df %>% mutate_at(datecols, dmy)
+str(df)
+
+skimr::skim(df)
+
+## loc du lieu
+quan2 <- df %>% filter (huyen == "Quận 2") 
+
+vgb_1_truoc <- df %>% filter (vgb_1 > as.Date("2024-02-20"))
+
+quan_2_hoac_vgb_1_truoc <- df %>% filter (huyen == "Quận 2" | vgb_1 > as.Date("2024-02-20"))
+
+quan_2_vgb_1_truoc <- df %>% filter( huyen == "Quận 2" & vgb_1 > as.Date("2024-02-20"))
+
+## cau 5
+#df <- df %>% mutate(vgb_truoc_24 = ifelse(is.na(vgb_truoc_24), today(), vgb_truoc_24))
+df <- df %>% mutate(vgb_truoc_24 = replace_na(vgb_truoc_24, today()))
+
+table(df$vgb_truoc_24==today())
+## Tao function
+covid_cases <- readRDS("day1/data/covid_cases.rds")
+
+compute_stats <- function(data, colname){
+  return(
+   c(
+      min =  min(data[[colname]]),
+      q1 = quantile(data[[colname]], 0.25, names=FALSE),
+      median = median(data[[colname]]),
+      q3 = quantile(data[[colname]], 0.75, names=FALSE),
+      max = max(data[[colname]])
+    )
+  )
+}
+
+compute_stats(covid_cases, colname = "cases_chn")
+
