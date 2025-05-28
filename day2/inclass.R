@@ -12,18 +12,21 @@ ggplot(data = mtcars, aes(x = wt, y = mpg)) +
 country <- c("Angola", "Papua New Guinea", "Pakistan", "Chad", "Ethiopia", "Kenya", "Nigeria", "Liberia", "Burkina Faso", "India")
 coverage <- c(-0.14, -0.35, 0.12, 0.14, 0.32, 0.07, 0.2, 0.18, 0.3, 0.35)
 inequality <- c(0.1, 0.08, 0.05, 0.01, 0.005, -0.06, -0.07, -0.11, -0.13, -0.16)
-df_plot <- data.frame(country, coverage, inequality)
 
+df_plot <- data.frame(country, coverage, inequality)
 df_plot
 
 ggplot(data = df_plot, aes(x = coverage, y = inequality)) +
   geom_point() + # add point
-  geom_text(aes(label = country), hjust = -0.2, vjust = 0.2) +  # add text lable to each point and adjust the position of the label
+  geom_text(aes(label = country), hjust = -0.2, vjust = 0.2) +  # add text label to each point and adjust the position of the label
   xlim(c(-0.35, 0.55)) + # set limit for x-axis
   ylim(c(-0.17, 0.1))    # set limit for y-axis
+
+# add color
 df_plot$size <- c(1.1, 0.6, 3, 1, 2, 1.1, 3, 0.7, 1.1, 8)
 df_plot$color <- c("purple", "blue", "yellow", "purple", "purple", "purple", "purple", "purple", "purple", "yellow")
 df_plot
+
 
 ggplot(data = df_plot, aes(x = coverage, y = inequality)) +
   geom_point(aes(size = size, color = color)) +
@@ -35,7 +38,7 @@ ggplot(data = df_plot, aes(x = coverage, y = inequality)) +
 
 
 # practice
-set.seed(123)
+set.seed(123) #cố định chuỗi ngẫu nhiên
 np <- 50
 rd <- data.frame(
   country = rep("", np),
@@ -82,4 +85,29 @@ ggplot(df_plot, aes(x = coverage, y = inequality)) +
     labels = c("50 million", "100 million", "150 million", "200 million"),
     range = c(0, 8),
     guide = guide_legend(order = 1)
+  ) + 
+  scale_color_manual(
+    values = cols,
+    breaks = c("red", "green", "darkblue", "yellow", "blue", "purple"),
+    labels = c(
+      "Central Europe, Eastern Europe and Central Asia",
+      "Latin America and Caribbean",
+      "North Africa and Middle East",
+      "South Asia",
+      "Southeast Asia, East Asia and Oceania",
+      "Sub-Saharan Africa"
+    ),
+    guide = guide_legend(order = 2)
+  ) +
+  labs(x = "Change in MCV1 coverage (2019-2000)",
+       y = "Change in absolute geographical inequality (2019-2000)",
+       size = NULL,
+       color = NULL) +
+  theme_classic() +
+  theme(
+    legend.position = "top",
+    legend.direction = "vertical",
+    legend.text = element_text(size = 11),
+    legend.key.height = unit(0.5, "cm"),
+    axis.text = element_text(size = 11)
   )
