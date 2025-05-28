@@ -2,6 +2,7 @@
 # Gọi packages
 library(dplyr)
 library(tidyverse)
+# Viết như dị là không ổn rồi
 # Nhiệm vụ 1: Nhập dữ liệu
 covid_cases <- readRDS("~/GitHub/R-Together/day1/data/covid_cases.rds")
 skimr::skim(covid_cases)
