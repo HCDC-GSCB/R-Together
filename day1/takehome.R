@@ -1,4 +1,4 @@
-# ====== R Scipt for take home exercise solution === 
+
 # Gọi packages
 library(dplyr)
 library(tidyverse)
