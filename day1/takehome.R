@@ -1,4 +1,5 @@
 # ====== R Scipt for take home exercise solution === 
+# Hi friend
 # Nhiem vu 1: Nhap du lieu
 covid_cases <- readRDS("day1/data/covid_cases.rds")
 
