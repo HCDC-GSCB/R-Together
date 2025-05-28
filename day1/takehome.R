@@ -30,5 +30,19 @@ covid_cases[["percent_chn"]] <- (covid_cases$cases_chn/covid_cases$case_global)*
 
 ##Nhiệm vụ 3: Tạo một function
 
+compute_percent <- function(x, data){
+  cases_name <- paste("cases_", x, sep = "")
+  percent_cal <- (data[[cases_name]]/data$case_global)*100
+  
+  percent_name <- paste("percent_", x, sep = "")
+  data[[percent_name]] <- percent_cal
+  return(data[[percent_name]])
+}
+
+compute_percent("vnm", covid_cases)
+compute_percent("usa", covid_cases)
+compute_percent("sgp", covid_cases)
+
+
 
 

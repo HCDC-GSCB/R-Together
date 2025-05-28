@@ -3,7 +3,7 @@
     "path": "D:/R code/Github Clone/R-Together/day1/takehome.R",
     "project_path": "day1/takehome.R",
     "type": "r_source",
-    "hash": "3954567107",
+    "hash": "0",
     "contents": "",
     "dirty": false,
     "created": 1748249847249.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "32,0",
-        "scrollLine": "16"
+        "cursorPosition": "45,0",
+        "scrollLine": "30"
     },
     "folds": "",
-    "lastKnownWriteTime": 1748359008,
+    "lastKnownWriteTime": 1748416058,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1748359008377,
+    "last_content_update": 1748416058944,
     "read_only": false,
     "read_only_alternatives": []
 }
