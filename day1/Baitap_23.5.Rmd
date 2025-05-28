@@ -1,0 +1,60 @@
+---
+title: "Exercise_23.5"
+author: "Kieu Diem - Dulcie"
+date: "2025-05-25"
+output: html_document
+---
+#1. Nhiệm vụ 1: Nhập dữ liệu
+```{r setup, include=FALSE}
+#Gọi package
+library (tidyverse)
+library(janitor)
+
+#gọi file rds
+df<-readRDS(file="C:/Users/ASUS/Documents/GitHub/R-Together/day1/data/covid_cases.rds",
+        refhook = NULL)
+
+#Làm sạch tên cột
+df<-df %>% data.frame(df) %>% clean_names()
+```
+
+#2. Nhiệm vụ 2: Tính toán đơn giản
+
+```{r}
+#Ngày báo cáo dữ liệu sớm nhất và muộn nhất trong tập dữ liệu và gán chúng cho 2 biến first_report_date, last_report_date
+
+first_report_date<-min(df$date, na.rm=TRUE)
+last_report_date<-max(df$date,na.rm=TRUE)
+
+#Tạo cột mới case_global cho covid_cases, đại diện cho tổng số trường hợp trên mọi quốc gia mỗi ngày báo cáo
+
+df1 <- df %>%
+  mutate(case_global = rowSums(
+    # Chọn tất cả cột trừ 'date', chuyển thành numeric nếu được
+    sapply(select(., -date), as.numeric),
+    na.rm = TRUE))
+
+#Tạo cột mới percent_chn trong covid_cases, đại diện cho tỷ lệ phần trăm các trường hợp toàn cầu mà các trường hợp Trung Quốc báo cáo trong ngày
+
+df2<-df1 %>% 
+  mutate(percent_chn =
+           (cases_chn/case_global)*100)
+```
+#3. Nhiệm vụ 3: Tạo một function
+Tạo một function compute_percent mà function đó:
+- nhận bộ dữ liệu và mã quốc gia (3 ký tự sau cases_ trong tên cột) làm đầu vào.
+
+- trả về tỷ lệ phần trăm số ca toàn cầu mà số ca của Quốc gia được chỉ định chiếm trên mỗi ngày báo cáo.
+
+Sử dụng function đó để tạo 3 cột mới cho bảng covid_cases: percent_vnm, percent_usa, percent_sgp
+
+In bảng covid_cases cuối cùng, chỉ chọn các cột sau date, percent_chn, percent_vnm, percent_usa, percent_sgp
+
+```{r function}
+function_percent<-function_percent (df2){
+  
+}
+
+
+```
+
