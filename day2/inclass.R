@@ -71,7 +71,7 @@ cols <- c(
   "purple" = "#bc5c91"
 )
 
-ggplot(df_plot, aes(x = coverage, y = inequality)) +
+plot <- ggplot(df_plot, aes(x = coverage, y = inequality)) +
   geom_point(aes(size = size, color = color), alpha = 0.8)+
   geom_text(aes(label = country), hjust = -0.2, vjust = 0.2) +
   geom_vline(xintercept = 0, color = "#999999") +
@@ -111,3 +111,6 @@ ggplot(df_plot, aes(x = coverage, y = inequality)) +
     legend.key.height = unit(0.5, "cm"),
     axis.text = element_text(size = 11)
   )
+
+getwd()
+ggsave(path = "D:/R code/Github Clone/R-Together",plot = plot, filename = "ggplot1.jpeg", dpi = 600)
