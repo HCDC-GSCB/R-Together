@@ -1,0 +1,26 @@
+{
+    "id": "83F2CDED",
+    "path": "~/GitHub/R-Together/day1/takehome.R",
+    "project_path": "day1/takehome.R",
+    "type": "r_source",
+    "hash": "132910628",
+    "contents": "",
+    "dirty": false,
+    "created": 1748077850255.0,
+    "source_on_save": false,
+    "relative_order": 3,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source",
+        "cursorPosition": "19,21",
+        "scrollLine": "3"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1748258043,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1748258043,
+    "read_only": false,
+    "read_only_alternatives": []
+}
