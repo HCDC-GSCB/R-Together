@@ -1,8 +1,15 @@
 # ====== R Scipt for take home exercise solution === 
+<<<<<<< Updated upstream
 # xin chào, tôi đã xem bài này
 #Exercise 1: 24/05/2025 - 30/05/2025
 
 getwd()
+=======
+
+#Exercise 1: 24/05/2025 - 30/05/2025
+getwd()
+
+>>>>>>> Stashed changes
 #Nhiệm vụ 1: Nhập dữ liệu
 covid_cases <- readRDS("~/GitHub/R-Together/day1/data/covid_cases.rds")
 
@@ -50,6 +57,9 @@ covid_cases <- covid_cases %>%
 #Nhiệm vụ 4: Tạo bảng tóm tắt dữ liệu
   library(skimr)
   skim(covid_cases[,c("percent_chn", "percent_vnm", "percent_usa", "percent_sgp")])
+<<<<<<< Updated upstream
   ##Mô tả
   # + Tất cả đều bị missing 1 ca
   # + Tại Trung Quốc, tỷ lệ trung bình ca cao 38.6% độ lệch chuẩn cao =>  => quốc gia ghi nhận số ca lớn, dữ liệu biến động mạnh, không ổn định
+=======
+>>>>>>> Stashed changes
