@@ -1,5 +1,5 @@
 # ====== R Scipt for take home exercise solution === 
-
+# xin chào, tôi đã xem bài này
 #Exercise 1: 24/05/2025 - 30/05/2025
 getwd()
 
