@@ -1,26 +1,27 @@
 {
-    "id": "2D32B2F7",
-    "path": "D:/R code/Github Clone/R-Together/day1/takehome.R",
-    "project_path": "day1/takehome.R",
+    "id": "03228866",
+    "path": "D:/R code/Github Clone/R-Together/day2/inclass.R",
+    "project_path": "day2/inclass.R",
     "type": "r_source",
-    "hash": "2535862815",
+    "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1748480823312.0,
+    "created": 1749026367633.0,
     "source_on_save": false,
     "relative_order": 3,
     "properties": {
+        "tempName": "Untitled1",
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "84,28",
-        "scrollLine": "67"
+        "cursorPosition": "116,0",
+        "scrollLine": "0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1748484497,
+    "lastKnownWriteTime": 1748423918,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1748484497955,
+    "last_content_update": 1748423918,
     "read_only": false,
     "read_only_alternatives": []
 }
