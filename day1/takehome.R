@@ -1,4 +1,5 @@
 # ====== R Scipt for take home exercise solution === 
+<<<<<<< HEAD
 #doc du lieu
 covid_cases <- readRDS("~/GitHub/day1/data/covid_cases.rds")
 head(covid_cases)
@@ -54,3 +55,7 @@ skim(covid_cases[,c("percent_chn", "percent_vnm", "percent_usa", "percent_sgp")]
 ##Mô tả
 # + Tất cả đều bị missing 1 ca
 # + Tại Trung Quốc, tỷ lệ trung bình ca cao 38.6% độ lệch chuẩn cao =>  => quốc gia ghi nhận số ca lớn, dữ liệu biến động mạnh, không ổn định
+=======
+
+#Hi
+>>>>>>> 687fa488083afa8f56b6410ea02e6542f4220a96
