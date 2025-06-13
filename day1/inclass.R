@@ -1,0 +1,25 @@
+df<- read.table(file="day1/data/life-exp.csv",header=T,sep=",")
+read(df)
+
+install.packages("readxl")
+
+install.packages("haven")
+library(readxl)
+df1 <-read_excel("day1/data/vaccine_data.xlsx",sheet=1)
+head(df1)
+library(haven)
+df2 <-read_dta("day1/data/linelist-raw.dta")
+head(df2)
+library(janitor)
+install.packages("janitor")
+df3 <-clean_names(df1)
+class(df3$gioitinh)
+df3$gioitinh<-as.factor(df3$gioitinh)
+class(df3$ngaysinh)
+df3$ngaysinh<-as.Date(df3$ngaysinh)
+
+country <- c("Angola", "Papua New Guinea", "Pakistan", "Chad", "Ethiopia", "Kenya", "Nigeria", "Liberia", "Burkina Faso", "India")
+coverage <- c(-0.14, -0.35, 0.12, 0.14, 0.32, 0.07, 0.2, 0.18, 0.3, 0.35)
+inequality <- c(0.1, 0.08, 0.05, 0.01, 0.005, -0.06, -0.07, -0.11, -0.13, -0.16)
+df_plot <- data.frame(country, coverage, inequality)
+df_plot
