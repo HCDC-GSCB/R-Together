@@ -1,65 +1,113 @@
-# Gọi packages
+---
+title: "Capstone"
+author: "Vinh"
+date: "`r Sys.Date()`"
+output: 
+  word_document:
+    fig_width: 10
+    fig_height: 6
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+# 
+
+```{r setup}
+knitr::opts_chunk$set(warning = TRUE)
+
+```
+
+# **Phần 1. Gọi packages và đọc dữ liệu**
+
+```{r message = FALSE}
 library(tidyverse)
 library(janitor)
 library(gtsummary)
+library(skimr)
+library(scales)
 df <- read_csv("E:/R-Together/day1/data/life-exp.csv")
+```
+
+# **Phần 2. Khám phá dữ liệu**
+
+## 2.1. Xem và nhận xét dữ liệu
+
+```{r message = FALSE}
 skimr::skim(df)
+```
 
-# Phần 2: Khám phá Dữ liệu #########
-# Dữ liệu có bao nhiêu dòng và bao nhiêu cột?
-  # Number of rows             1649  
-  # Number of columns          22  
+-   Dữ liệu có bao nhiêu dòng và bao nhiêu cột? Number of rows 1649\
+    Number of columns 22
 
-# Dữ liệu gồm những loại biến nào?
-  #Column type frequency:           
-  # character                2     
-  # numeric                  20  
-  
-#  Dữ liệu có cột nào có missing không? Nếu có thì gồm những cột nào?
-  # Không có missing
+-   Dữ liệu gồm những loại biến nào? Column type frequency:\
+    character 2\
+    numeric 20
 
-#  Tên các cột có đúng quy tắc chưa? Nếu chưa thì đổi tên cột theo đúng quy tắc.
-  # QUy tắc 
-  #Tên ngắn
-  # Không có khoảng trắng (thay thế bằng dấu gạch dưới_)
-  # Không có ký tự lạ (&, #, <, >, …)
-  # Thống nhất cách định danh
+-   Dữ liệu có cột nào có missing không? Nếu có thì gồm những cột nào?
+    Không có missing\
+    \## 2.2. Đổi tên các biến
+
+-   Tên các cột có đúng quy tắc chưa? Nếu chưa thì đổi tên cột theo đúng
+    quy tắc. Quy tắc Tên ngắn Không có khoảng trắng (thay thế bằng dấu
+    gạch dưới\_) Không có ký tự lạ (&, #, \<, \>, …) Thống nhất cách
+    định danh
+
+```{r}
 names(df)
-df<- clean_names(df)
+df <- clean_names(df)
 names(df)
+```
 
-# Kiểu dữ liệu của mỗi cột có phù hợp chưa? Nếu chưa thì đổi thành kiểu dữ liệu phù hợp với biến.
+## 2.3. Xoay trục dữ liệu
+
+```{r}
 df <- df %>%
   pivot_longer(
     cols = starts_with("thinness"),
     names_to = "age_group",
     values_to = "thinness"
   )
+```
 
-# Phần 3: Xử lý và phân tích dữ liệu #########
- 
- # Sử dụng df truy xuất ra những cột Measles, Polio, Diphtheria và gán thành df_diseases. Sau đó in kết quả những dòng đầu tiên.
+# Phần 3. Xử lý và phân tích dữ liệu
+
+## 3.1. Sử dụng df truy xuất ra những cột Measles, Polio, Diphtheria và gán thành df_diseases. Sau đó in kết quả những dòng đầu tiên
+
+```{r}
 df_diseases <- df %>% select(measles, polio, diphtheria)
+head(df_diseases)
+```
 
+## 3.2. Sử dụng df truy xuất hàng 2, cột 5.
 
-  # Sử dụng df truy xuất hàng 2, cột 5.
+```{r}
 a <- df[2, 5]
 a
+```
 
-  #Sử dụng df truy nhất hàng 2,5 và cột Measles, Polio.
+## 3.3. Sử dụng df truy nhất hàng 2,5 và cột Measles, Polio.
+
+```{r}
 b <- df[c(2, 5), c("measles", "polio")]
 b
-  # Thay thế những giá trị missing của cột Life Expectancy bằng giá trị trung bình của những giá trị
+```
 
+## 3.4. Thay thế những giá trị missing của cột Life Expectancy bằng giá trị trung bình của những giá trị
+
+```{r}
+table(is.na(df$life_expectancy))
 df <- df %>%
   mutate(life_expectancy = ifelse(
     is.na(life_expectancy),
     mean(life_expectancy, na.rm = TRUE),
     life_expectancy
   ))
+```
 
-table(is.na(df$life_expectancy))
+## 3.5. Tạo 1 data frame chứa 2 đối tượng top_5 và bot_5 và gán thành df_top_bot
 
+```{r}
 # 5 quốc gia có tuổi thọ trung bình cao nhất năm 2015
 top_5 <- df %>%
   filter(year == 2015) %>%
@@ -74,25 +122,35 @@ bot_5 <- df %>%
 
   # Tạo 1 data frame chứa 2 đối tượng top_5 và bot_5 và gán thành df_top_bot
 df_top_bot <- bind_rows(top_5, bot_5)
+head(df_top_bot)
+```
 
-  # Tạo biến mới bmi_lv là biến thứ tự gồm các nhóm: dưới 18.5, từ 18.5 đến 23, trên 23.
+## 3.6. Tạo biến mới bmi_lv là biến thứ tự gồm các nhóm: dưới 18.5, từ 18.5 đến 23, trên 23
+
+```{r}
 df <- df %>% mutate(bmi= case_when(
   bmi < 18.5 ~ "Dưới 18.5",
   bmi >= 18.5 & bmi <= 23 ~ "Từ 18.5 đến 23",
   bmi > 23 ~ "Trên 23",
-  TRUE ~ NA_character_    # Nếu bị thiếu dữ liệu
-)
-)
-  # Sử dụng df nhóm theo country để tính trung bình GDP và gán thành df_gdp_by_country.
+  TRUE ~ NA_character_) # Nếu bị thiếu dữ liệu
+  )
+```
+
+## 3.7. Sử dụng df nhóm theo country để tính trung bình GDP và gán thành df_gdp_by_country
+
+```{r}
 df_gdp_by_country <- df %>%
   group_by(country) %>%
   summarise(mean_gdp = mean(gdp, na.rm = TRUE))
+```
 
+# **Phần 4: Tạo bảng thống kê năm 2015**
 
-# Phần 4: Tạo bảng thống kê năm 2015 ########
+Nhập lại dữ liệu
 
+```{r,include=FALSE}
 df <- read_csv("E:/R-Together/day1/data/life-exp.csv")
-
+# làm sạch, định dạng kiểu dữ liệu
 df<- clean_names(df) %>%
   mutate(
     bmi = as.numeric(bmi),
@@ -101,7 +159,11 @@ df<- clean_names(df) %>%
     gdp = as.numeric(gdp),
     schooling = as.numeric(schooling)
   )
-# Tạo bảng thống kê mô tả
+```
+
+## Tạo bảng kết quả
+
+```{r}
 tbl <- df %>%
   select(status, life_expectancy, adult_mortality, gdp, schooling, bmi) %>%
   tbl_summary(
@@ -122,19 +184,26 @@ tbl <- df %>%
   add_p(pvalue_fun = ~style_pvalue(.x, digits = 3)) %>%
   bold_labels() %>%
   modify_caption("**Bảng mô tả các đặc trưng theo Status**")
-
+# In bảng kết quả
 tbl
+```
 
+# Phần 5. Trực quan hoá dữ liệu
 
+## 5.1. Plot 1
 
-# Phần 5: Trực quan hóa ###########
-# Chuẩn bị data
+-   Chuẩn bị data
+
+```{r}
 plot5 <- df %>%
   select(country, life_expectancy, year) %>%
   filter(country %in% c("Belgium","Germany", "Thailand", "Cambodia")) %>%
   group_by(country, year)
+```
 
-# Ploting
+-   Vẽ biểu đồ
+
+```{r}
 ggplot(plot5, aes(x = year, y = life_expectancy, color = country)) +
   geom_line(size = 1.2) +
   geom_point(size = 2) +
@@ -149,13 +218,21 @@ ggplot(plot5, aes(x = year, y = life_expectancy, color = country)) +
     color = "Quốc gia"
   ) +
   theme_minimal(base_size = 14)
-library(scales)
+```
 
-# 5.2
+## 5.2. Plot 2
+
+-   Chuẩn bị data
+
+```{r}
 df_sub <- df %>%
   filter(country %in% c("Belgium","Germany", "Thailand", "Cambodia")) %>%
   filter(gdp > 0)
+```
 
+-   Vẽ biểu đồ
+
+```{r}
 ggplot(df_sub, aes(
   x = gdp, 
   y = life_expectancy, 
@@ -187,8 +264,11 @@ ggplot(df_sub, aes(
     panel.grid.major = element_line(linetype = "dashed", color = "grey80"),
     panel.grid.minor = element_blank()
   )
+```
 
-# Phần 6 ###########
+# Phần 6. Function
+
+```{r}
 plot_country <- function(df, country_name, indicator) {
   # Kiểm tra country_name có trong df không
   if (!(country_name %in% unique(df$country))) {
@@ -235,7 +315,10 @@ plot_country <- function(df, country_name, indicator) {
   
   print(p)
 }
+```
 
+Ví dụ
+
+```{r}
 plot_country(df, "Australia", "schooling")
-
-
+```
