@@ -27,12 +27,30 @@ df <- read.csv("../day1/data/life-exp.csv")
 ```{r, echo=FALSE}
 view(df)
 
+#chuyển dữ liệu thành tibble
 df <- as_tibble(df)
 
-df %>% clean_names() %>% colnames()
-
+#kiểm tra các loại dữ liệu
 str(df)
 
+#kiểm tra xem các biến có bị mất dữ liệu không
+skimr::skim(df)
+
+#Thay đổi tên cột cho đúng quy tắc
+df <- df %>% clean_names %>% rename(life_expectancy = Life.expectancy,
+              adult_mortality = Adult.Mortality,
+              infant_deaths = infant.deaths,
+              percentage_expenditure = percentage.expenditure,
+              Hepatitis_B = Hepatitis.B,
+              under_five_deaths = under.five.deaths,
+              total_expenditure = Total.expenditure,
+              HIV_AIDS = HIV.AIDS,
+              thinness_1_19_years = thinness..1.19.years,
+              thinness_5_9_years = thinness.5.9.years,
+              income_composition_of_resources =     Income.composition.of.resources) 
+
+#Chuyển các biến về loại dữ liệu hợp lý
+df <- df %>% mutate(Status = as.factor(Status))
 
 ```
 
