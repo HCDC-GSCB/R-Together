@@ -5,6 +5,8 @@ library(dplyr)
 library(lubridate)
 
 covid_cases <- readRDS("day2/data/covid_cases.rds")
+#covid_cases <- readRDS("../day1/data/covid_cases.rds")
+
 
 covid_cases %>%  pivot_longer(cols = -date,
                             names_to = "country",

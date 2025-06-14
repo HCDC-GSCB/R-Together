@@ -1,0 +1,56 @@
+---
+title: "Capstone"
+author: "Quan Ke Truong"
+date: "2025-06-11"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Loading neccessary package and data
+
+```{r, echo = FALSE}
+
+library(tidyverse)
+library(skimr)
+library(lubridate)
+library(janitor)
+
+df <- read.csv("../day1/data/life-exp.csv")
+```
+
+
+## Khám phá dữ liệu
+
+```{r, echo=FALSE}
+view(df)
+
+df <- as_tibble(df)
+
+df %>% clean_names() %>% colnames()
+
+str(df)
+```
+
+```{r, echo=FALSE}
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
