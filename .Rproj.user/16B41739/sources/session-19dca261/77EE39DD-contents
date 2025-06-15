@@ -21,7 +21,6 @@ library(janitor)
 df <- read.csv("../day1/data/life-exp.csv")
 ```
 
-
 ## Khám phá dữ liệu
 
 ```{r, echo=FALSE}
@@ -56,17 +55,9 @@ df <- df %>% mutate(Status = as.factor(Status))
 
 ```{r, echo=FALSE}
 
-
+df_diseases <- df %>% select(Measles, Polio, Diphtheria)
+head(df_diseases)
 ```
-
-
-
-
-
-
-
-
-
 
 
 
