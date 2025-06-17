@@ -17,6 +17,7 @@ library(tidyverse)
 library(skimr)
 library(lubridate)
 library(janitor)
+library(gtsummary)
 
 df <- read.csv("../day1/data/life-exp.csv")
 ```
@@ -92,12 +93,70 @@ df_gdp_by_country <- df %>% group_by(country) %>% summarise(mean_gdp = mean(gdp)
 ```
 
 
-
+## Tạo bảng thống kê năm 2015
 ```{r, echo=FALSE}
+#Lọc dữ liệu 2015
+df %>% filter(year == 2015) %>% tbl_summary(
+  by = status,
+  include = c(life_expectancy,adult_mortality,gdp,schooling,bmi),
+  label = list(
+    life_expectancy ~ "Kỳ vọng sống (năm)",
+    adult_mortality ~ "Tử vong ở người lớn",
+    gdp ~ "Thu nhập đầu người",
+    schooling ~ "Mức độ học vấn",
+    bmi ~ "BMI (kg/m2)"
+  ), 
+  missing = "no",
+   statistic = list(
+      Life_Expectancy = "{mean} ({min} - {max})",
+      Adult_Mortality = "{mean} ({min} - {max})",
+      GDP = "{mean} ({min} - {max})",
+      Schooling = "{mean} ({min} - {max})",
+      BMI = "{median} ({p25} - {p75})"
+    )
+) %>% add_overall() %>%  
+      bold_labels()
 
 
 
 ```
+
+
+
+
+## Trực quan hóa dữ liệu
+```{r, echo=FALSE}
+library(ggplot2)
+
+#Biểu đồ đường thể hiện xu hướng tuổi thọ
+plot_data <- df %>% filter(country == c("Vietnam", "Cambodia", "Singapore", "Thailand"))
+
+ggplot(plot_data, aes(x = year, y = life_expectancy, group = country)) + 
+  geom_line() +
+  labs(
+    title = "Xu hướng tuổi thọ từ 2000 đến 2015",
+    x = "Năm",
+    y = "Tuổi thọ (Năm)"
+    ) + 
+   theme_minimal() +
+   theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+    axis.title = element_text(size = 12),
+    legend.position = "bottom"
+  )
+
+#Biểu đề thể hiện mối quan hệ giữa GDP và Tuổi thọ
+
+
+
+```
+
+
+
+
+
+
+
 
 
 
