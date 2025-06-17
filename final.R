@@ -60,5 +60,38 @@ df_gdp_by_country <- df %>%
   summarise(mean_gdp = mean(gdp, na.rm = TRUE))
 
     ## Phần 4: Tạo bảng thống kê năm 2015
+#Các biến: Status, Life Expectancy, Adult Mortality, GDP, Schooling, BMI.
+library(tidyverse) 
+library(gtsummary) 
+library(labelled)
+
+  df_2015 <- df %>%
+  filter(year == 2025) %>%
+  select(status, life_expectancy, adult_mortality, gdp, schooling, bmi) %>%
+  na.omit() 
+
+  tbl_2015 <- df_2015 %>% 
+    tbl_summary(
+      by = status,
+      label = list (
+        status ~ "Trạng thái",
+        life_expectancy ~ "Tuổi thọ trung bình",
+        adult_mortality ~ "Tỷ lệ tử vong ở người lớn",
+        gdp ~ "Tổng sản phẩm quốc nội (GDP)",
+        schooling ~ "Số năm đi học",
+        bmi ~ "Chỉ số khối cơ thể (BMI)"
+      ),
+      statistic = list(
+        bmi ~ "{median} ({p25} - {p75})",
+        all_continuous() ~ "{mean} ({min} - {max})"
+      ),
+      digits = bmi ~3
+    ) %>% 
+    add_overall() %>% 
+    add_p(test = all_continuous() ~ "t.test", 
+          pvalue_fun = ~style_pvalue(.x, digits = 3)) %>%
+    bold_labels() %>%
+    modify_caption("**Bảng 1. Thống kê mô tả theo Tình trạng phát triển (Status), năm 2025**")
+
 
 
