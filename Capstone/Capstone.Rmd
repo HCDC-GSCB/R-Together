@@ -151,7 +151,30 @@ ggplot(plot_data, aes(x = year, y = life_expectancy, colour = country)) +
 #Biểu đồ thể hiện mối quan hệ giữa 2 biến GDP và tuổi thọ
 ggplot(plot_data, aes(x = gdp, y = life_expectancy, color = status, size = gdp)) +
   geom_point(alpha = 0.8) +
-  scale_x_log10()
+  scale_x_log10() +
+  scale_color_manual(values = c("Developing" = "#1b9e77", "Developed" = "#d95f02"))+
+  labs(
+    title = "Mối quan hệ giữa GDP và Tuổi thọ năm 2015",
+    x = "GDP (USD)",
+    y = "Tuổi thọ (năm)",
+    color = "Trạng thái",
+    size = "Dân số"
+  ) +
+  theme_minimal()
+  
+
+```
+
+
+##Viết function
+```{r, echo=FALSE}
+
+plot_country <- function(country_name, indicator){
+  plot_data_func <- df %>% filter(country == country_name, year>=2000 & year<=2015 )
+  
+}
+
+
 
 ```
 
