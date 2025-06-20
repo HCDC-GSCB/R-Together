@@ -180,7 +180,7 @@ tbl <- df %>%
       all_continuous() ~ "{mean} [{min}-{max}]",
       bmi ~ "{median} ({p25}-{p75})"
     )) %>%  
-  add_overall() %>%
+  add_overall() %>% # Thêm cột tổng
   add_p(pvalue_fun = ~style_pvalue(.x, digits = 3)) %>%
   bold_labels() %>%
   modify_caption("**Bảng mô tả các đặc trưng theo Status**")
@@ -283,37 +283,19 @@ plot_country <- function(df, country_name, indicator) {
     filter(country == country_name) %>%
     filter(gdp > 0)
   
-  p <- ggplot(df_sub, aes(
-    x = gdp, 
-    y = .data[[indicator]],     # Truy xuất biến động
-    color = status, 
-    size = population / 1e6
-  )) +
-    geom_point(alpha = 0.8) +
-    scale_x_log10(labels = dollar_format()) +
-    scale_color_manual(
-      name = "Tình trạng phát triển",
-      values = c("Developed" = "#d7263d", "Developing" = "#009688")
-    ) +
-    scale_size_continuous(
-      name = "Dân số (triệu người)",
-      range = c(2, 10)
-    ) +
-    labs(
-      title = paste("Mối liên hệ giữa GDP và", indicator, "của", country_name),
-      x = "GDP (USD, log10)",
-      y = indicator
-    ) +
-    theme_minimal(base_size = 15) +
-    theme(
-      plot.title = element_text(face = "bold", size = 18, hjust = 0.5, color = "#20232a"),
-      legend.position = "right",
-      legend.background = element_rect(fill = "white", color = NA),
-      panel.grid.major = element_line(linetype = "dashed", color = "grey80"),
-      panel.grid.minor = element_blank()
-    )
-  
-  print(p)
+  # Vẽ biểu đồ
+    p <- ggplot(data =  df_sub, aes(x = year, y = .data[[indicator]])) +
+        geom_line(color = "darkblue", size = 1) +
+        geom_point(color = "darkblue") +
+        labs(
+            title = paste("Xu Hướng chỉ số", indicator, "của", country_name),
+            subtitle = "Giai đoạn 2000-2015",
+            x = "Năm",
+            y = indicator
+        ) +
+        theme_bw()
+    
+    return(p)
 }
 ```
 

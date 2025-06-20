@@ -4,7 +4,7 @@ library(janitor)
 library(gtsummary)
 df <- read_csv("E:/R-Together/day1/data/life-exp.csv")
 skimr::skim(df)
-
+getwd()
 # Phần 2: Khám phá Dữ liệu #########
 # Dữ liệu có bao nhiêu dòng và bao nhiêu cột?
   # Number of rows             1649  
