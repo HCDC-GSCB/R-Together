@@ -1,0 +1,17 @@
+"0","#Thay đổi tên cột cho đúng quy tắc"
+"0","df <- df  %>% rename(life_expectancy = Life.expectancy,"
+"0","              adult_mortality = Adult.Mortality,"
+"0","              infant_deaths = infant.deaths,"
+"0","              percentage_expenditure = percentage.expenditure,"
+"0","              Hepatitis_B = Hepatitis.B,"
+"0","              under_five_deaths = under.five.deaths,"
+"0","              total_expenditure = Total.expenditure,"
+"0","              HIV_AIDS = HIV.AIDS,"
+"0","              thinness_1_19_years = thinness..1.19.years,"
+"0","              thinness_5_9_years = thinness.5.9.years,"
+"0","              income_composition_of_resources =     Income.composition.of.resources) "
+"1","[1m[33mError[39m in `rename()`:[22m
+[33m![39m Can't rename columns that don't exist.
+[31m✖[39m Column `Life.expectancy` doesn't exist.
+[90mRun `]8;;x-r-run:rlang::last_trace()rlang::last_trace()]8;;` to see where the error occurred.[39m
+"

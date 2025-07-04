@@ -59,7 +59,7 @@ df <- df %>% mutate(status = as.factor(status),
 ##Xử lý và phân tích dữ liệu
 ```{r, echo=FALSE}
 
-df_diseases <- df %>% select(Measles, Polio, Diphtheria)
+df_diseases <- df %>% select(measles, polio, diphtheria)
 head(df_diseases)
 
 #Truy xuất hàng 2 cột 5
@@ -69,7 +69,7 @@ df[2,5]
 sum(is.na(df$life_expectancy))
 
 #Truy xuất hàng 2,5 và cột Measles, Polio 
-df[c(2,5), c("Measles","Polio")]
+df[c(2,5), c("measles","polio")]
 
 #Tìm ra 5 quốc gia có tuổi thọ trung bình cao nhất năm 2015 và gán thành top_5
 top_5 <- df %>% filter(year == 2015) %>% group_by(country) %>% summarise(mean_age = sum(life_expectancy)) %>% slice_max(mean_age, n=5) %>% select(country)
@@ -93,10 +93,10 @@ df_gdp_by_country <- df %>% group_by(country) %>% summarise(mean_gdp = mean(gdp)
 ```
 
 
-## Tạo bảng thống kê năm 2015
+## Tạo bảng thống kê năm 2014
 ```{r, echo=FALSE}
 #Lọc dữ liệu 2015
-df %>% filter(year == 2015) %>% tbl_summary(
+df %>% filter(year == 2014) %>% tbl_summary(
   by = status,
   include = c(life_expectancy,adult_mortality,gdp,schooling,bmi),
   label = list(
@@ -111,14 +111,15 @@ df %>% filter(year == 2015) %>% tbl_summary(
       Life_Expectancy = "{mean} ({min} - {max})",
       Adult_Mortality = "{mean} ({min} - {max})",
       GDP = "{mean} ({min} - {max})",
-      Schooling = "{mean} ({min} - {max})",
+      Schooling = "{mean} ({min} - {max})", #all_continuous() ~ "{mean} ({min} to {max})"
       BMI = "{median} ({p25} - {p75})"
     )
+) %>% add_p(
+  test = list(all_continuous() ~ "wilcox.test"),
+    pvalue_fun = ~style_pvalue(.x, digits = 3)
 ) %>% add_overall() %>%  
       bold_labels()
-
-
-
+#modify header
 ```
 
 
@@ -169,12 +170,34 @@ ggplot(plot_data, aes(x = gdp, y = life_expectancy, color = status, size = gdp))
 ##Viết function
 ```{r, echo=FALSE}
 
-plot_country <- function(country_name, indicator){
-  plot_data_func <- df %>% filter(country == country_name, year>=2000 & year<=2015 )
-  
+create_plot <- function(country_name, indicator) {
+    # Kiểm tra xem indicator có phải là một cột trong dataframe không
+    if (!indicator %in% colnames(df)) {
+        stop(paste("Chỉ số '", indicator, "' không tồn tại trong bộ dữ liệu.", sep = ""))
+    }
+    
+    # Lọc dữ liệu cho quốc gia cụ thể
+    country_data <- df %>% filter(country == country_name)
+    
+    # Kiểm tra xem có dữ liệu cho quốc gia đó không
+    if (nrow(country_data) == 0) {
+        return(paste("Không tìm thấy dữ liệu cho quốc gia:", country_name))
+    }
+    
+    # Vẽ biểu đồ
+    p <- ggplot(data = country_data, aes(x = year, y = .data[[indicator]])) +
+        geom_line(color = "darkblue", size = 1) +
+        geom_point(color = "darkblue") +
+        labs(
+            title = paste("Xu Hướng chỉ số", indicator, "của", country_name),
+            subtitle = "Giai đoạn 2000-2015",
+            x = "Năm",
+            y = indicator
+        ) +
+        theme_bw()
+    
+    return(p)
 }
-
-
 
 ```
 

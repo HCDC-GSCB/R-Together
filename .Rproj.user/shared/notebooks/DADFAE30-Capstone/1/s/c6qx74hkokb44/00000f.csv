@@ -1,0 +1,8 @@
+"0",""
+"0","library(tidyverse)"
+"0","library(skimr)"
+"0","library(lubridate)"
+"0","library(janitor)"
+"0","library(gtsummary)"
+"0",""
+"0","df <- read.csv(""../day1/data/life-exp.csv"")"

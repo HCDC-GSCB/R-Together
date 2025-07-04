@@ -1,0 +1,3 @@
+"0",""
+"0","df_diseases <- df %>% select(measles, polio, diphtheria)"
+"0","head(df_diseases)"
