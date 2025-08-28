@@ -1,13 +1,12 @@
 # ====== R Scipt for take home exercise solution === 
-#Exercise 1: 24/05/2025 - 30/05/2025
-
-getwd()
-=======
 
 #Exercise 1: 24/05/2025 - 30/05/2025
 getwd()
+setwd("C:/R-Together/day1/data")
+list.files()
+file.exists("C:/R-Together/day1/data/covid_cases.rds")
+file.choose()
 
->>>>>>> Stashed changes
 #Nhiệm vụ 1: Nhập dữ liệu
 covid_cases <- readRDS("C:/R-Together/day1/data/covid_cases.rds")
 
@@ -21,7 +20,7 @@ last_report_date <- max(covid_cases$date,na.rm=T)
 library(tidyr)
 library(dplyr)
   covid_cases <- covid_cases %>%
-  mutate(case_global = rowSums(select(., starts_with("cases_")), na.rm = TRUE))
+  mutate(case_global = rowSums(select(., -date), na.rm = TRUE))
   head(covid_cases)  
 
   #Tạo cột mới percent_chn
@@ -35,17 +34,15 @@ covid_cases <- covid_cases %>%
  #Tạo một function compute_percent mà function đó
     compute_percent <- function(data,country_code) {
     country_col <- paste0("cases_", country_code)
-    percent <- ifelse(data$case_global == 0, NA,
-                      100 * data[[country_col]] / data$case_global)
-    return(percent)
-  }
-  covid_cases$percent_myt <- compute_percent(covid_cases, "myt")
-  covid_cases$percent_chn <- compute_percent(covid_cases, "chn")
+    percent_col <- paste0("percent_", country_code)
+    data[[percent_col]] <- (data[[country_col]]/data$case_global)
+    return(data)
+}
   
  #Sử dụng function đó để tạo 3 cột mới cho bảng covid_cases:vnm,usa,sgp
-  covid_cases$percent_vnm <- compute_percent(covid_cases, "vnm")
-  covid_cases$percent_usa <- compute_percent(covid_cases, "usa")
-  covid_cases$percent_sgp <- compute_percent(covid_cases, "sgp")
+  covid_cases <- compute_percent(covid_cases, "vnm")
+  covid_cases <- compute_percent(covid_cases, "usa")
+  covid_cases <- compute_percent(covid_cases, "sgp")
   
  #In bảng covid_cases cuối cùng, chỉ chọn các cột
   library(dplyr)
